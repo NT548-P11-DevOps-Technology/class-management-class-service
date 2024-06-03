@@ -65,24 +65,23 @@ function createClass($classCode, $className) {
     global $conn;
 
     $student_data = callAPI('GET', 'http://localhost:8080/student/getAll');
-    if (!is_array($student_data)) {
-        return "Error: Student data is not valid";
-    }
-
     $lecturer_data = callAPI('GET', 'http://localhost:5000/lecturer/getAll');
-    if (!is_array($lecturer_data)) {
-        return "Error: Lecturer data is not valid";
-    }
 
-    $numberOfStudents = count(array_filter($student_data, function ($s) use ($classCode) {
-        return $s['classCode'] === $classCode;
-    }));
+    if (is_array($student_data)) {
+        $numberOfStudents = count(array_filter($student_data, function ($s) use ($classCode) {
+            return $s['classCode'] === $classCode;
+        }));
+    } else {
+        $numberOfStudents = 0;
+    }
 
     $lecturerId = null;
-    foreach ($lecturer_data as $lecturer) {
-        if ($lecturer['classCode'] === $classCode) {
-            $lecturerId = $lecturer['_id'];
-            break;
+    if (is_array($lecturer_data)) {
+        foreach ($lecturer_data as $lecturer) {
+            if ($lecturer['classCode'] === $classCode) {
+                $lecturerId = $lecturer['_id'];
+                break;
+            }
         }
     }
 
