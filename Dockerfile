@@ -14,6 +14,9 @@ RUN apt-get update && \
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && chmod +x /usr/bin/composer
 
+# Thực hiện composer install để cài đặt các dependencies của ứng dụng PHP
+RUN composer install --no-cache --no-interaction --no-scripts --optimize-autoloader
+
 # Enable mod_rewrite
 RUN a2enmod rewrite
 
