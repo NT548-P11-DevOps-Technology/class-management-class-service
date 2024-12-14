@@ -3,11 +3,11 @@ on:
   push:
     branches:
       - main
-      - stage
+      - stag
   pull_request:
     branches:
       - main
-      - stage
+      - stag
 
 jobs:
   call-reusable-workflow:
