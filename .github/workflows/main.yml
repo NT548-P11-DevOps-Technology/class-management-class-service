@@ -8,10 +8,22 @@ on:
     branches:
       - main
       - stag
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to run workflow on'
+        required: true
+        default: 'stag'
+        type: choice
+        options:
+          - main
+          - stag
 
 jobs:
   call-reusable-workflow:
     uses: NT548-P11-DevOps-Technology/class-management-FE/.github/workflows/main.yml@main
+    with:
+      branch: ${{ github.event.inputs.branch || github.ref_name }}
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
